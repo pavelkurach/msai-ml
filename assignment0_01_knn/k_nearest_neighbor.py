@@ -127,12 +127,8 @@ class KNearestNeighbor:
         #########################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         dists = np.sum(
-            (
-                (np.expand_dims(X, axis=2)
-                 - np.expand_dims(self.X_train.T, axis=0))
-            ) ** 2,
-            axis=1
-        )
+            (X.reshape(X.shape[0], 1, X.shape[1]) - self.X_train) ** 2,
+            axis=2)
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         return dists
 
