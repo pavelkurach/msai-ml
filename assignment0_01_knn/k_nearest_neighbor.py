@@ -76,9 +76,9 @@ class KNearestNeighbor:
                 # not use a loop over dimension, nor use np.linalg.norm().          #
                 #####################################################################
                 # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-                dists[i, j] = (X[i] - self.X_train[j]) @ (
+                dists[i, j] = np.sqrt((X[i] - self.X_train[j]) @ (
                         X[i] - self.X_train[j]
-                ).T
+                ).T)
                 # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         return dists
 
@@ -99,7 +99,7 @@ class KNearestNeighbor:
             # Do not use np.linalg.norm().                                        #
             #######################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-            dists[i, :] = np.sum((self.X_train - X[i]) ** 2, axis=1)
+            dists[i, :] = np.sqrt(np.sum((self.X_train - X[i]) ** 2, axis=1))
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         return dists
 
@@ -126,9 +126,10 @@ class KNearestNeighbor:
         #       and two broadcast sums.                                         #
         #########################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-        dists = np.sum(
-            (X.reshape(X.shape[0], 1, X.shape[1]) - self.X_train) ** 2,
-            axis=2)
+        dists = np.sqrt(
+            (-2 * X @ self.X_train.T)
+            + np.sum(X ** 2, axis=1, keepdims=True)
+            + np.sum(self.X_train ** 2, axis=1))
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         return dists
 
